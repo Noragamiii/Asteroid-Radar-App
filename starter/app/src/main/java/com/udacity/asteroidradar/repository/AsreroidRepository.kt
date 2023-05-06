@@ -24,7 +24,7 @@ class AsreroidRepository(private val database: AsteroidDatabase) {
     /**
      * A list of asteroid
      */
-    val asteroids: LiveData<List<Asteroid>> =
+    val allAsteroids: LiveData<List<Asteroid>> =
             Transformations.map(database.asteroidDao.getAsteroids()) {
                 it.asDomainModel()
             }

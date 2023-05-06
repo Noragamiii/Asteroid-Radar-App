@@ -6,3 +6,9 @@ object Constants {
     const val BASE_URL = "https://api.nasa.gov/"
     const val API_KEY = "zPG7gw1P0ufKdjLRamMCuFfE5zK7tiNO4RohNpmN"
 }
+
+enum class FilterAsteroid {
+    TODAY,
+    WEEK,
+    ALL
+}
