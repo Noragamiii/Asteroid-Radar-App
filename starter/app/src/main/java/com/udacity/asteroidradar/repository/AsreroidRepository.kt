@@ -6,7 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.room.Database
 import com.udacity.asteroidradar.Asteroid
+import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.Constants.API_KEY
+import com.udacity.asteroidradar.Utils
 import com.udacity.asteroidradar.api.AsteroidApiService
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.database.AsteroidDatabase
@@ -18,6 +20,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 class AsreroidRepository(private val database: AsteroidDatabase) {
 
@@ -33,31 +36,28 @@ class AsreroidRepository(private val database: AsteroidDatabase) {
      * Start date
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    private val startDate = LocalDateTime.now()
+    private val startDate = Utils.convertDateStringToFormattedString(Calendar.getInstance().time, Constants.API_QUERY_DATE_FORMAT)
 
     /**
      * End date
      */
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private val endDate = LocalDateTime.now().minusDays(7)
+    private val endDate = Utils.convertDateStringToFormattedString(Utils.addDaysToDate(Calendar.getInstance().time, 7),
+            Constants.API_QUERY_DATE_FORMAT)
 
     /**
      * Search start date
      */
     @RequiresApi(Build.VERSION_CODES.O)
     val dayAsteroids: LiveData<List<Asteroid>> =
-            Transformations.map(database.asteroidDao.getAsteroidsDay(startDate.format(DateTimeFormatter.ISO_DATE))) {
+            Transformations.map(database.asteroidDao.getAsteroidsDay(startDate)) {
                 it.asDomainModel()
             }
 
     @RequiresApi(Build.VERSION_CODES.O)
     val weekAsteroids: LiveData<List<Asteroid>> =
             Transformations.map(
-                    database.asteroidDao.getAsteroidsDate(
-                            startDate.format(DateTimeFormatter.ISO_DATE),
-                            endDate.format(DateTimeFormatter.ISO_DATE)
-                    )) {
+                    database.asteroidDao.getAsteroidsDate(startDate, endDate)
+            ) {
                 it.asDomainModel()
             }
 

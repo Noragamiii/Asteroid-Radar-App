@@ -21,7 +21,10 @@ class MainFragment : Fragment() {
             "You can only access the viewModel after onViewCreated()"
         }
 
-        ViewModelProvider(this).get(MainViewModel::class.java)
+        ViewModelProvider(
+                this,
+                MainViewModel.Factory(activity.application)
+        ).get(MainViewModel::class.java)
     }
 
     /**
@@ -33,7 +36,7 @@ class MainFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val binding = FragmentMainBinding.inflate(inflater)
+        val binding = FragmentMainBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
@@ -77,7 +80,7 @@ class MainFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.asteroidListFilter.observe(viewLifecycleOwner, Observer<List<Asteroid>> { asteroid ->
+        viewModel.asteroidList.observe(viewLifecycleOwner, Observer<List<Asteroid>> { asteroid ->
             asteroid.apply {
                 asteroidAdapter.submitList(this)
             }

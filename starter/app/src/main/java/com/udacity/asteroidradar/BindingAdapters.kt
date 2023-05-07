@@ -51,7 +51,6 @@ fun goneIfNotNull(view: View, it: Int) {
 fun bindUriToImage(imageView: ImageView, strUrl: String?) {
     Picasso.with(imageView.context)
             .load(strUrl)
-            .placeholder(R.drawable.placeholder_picture_of_day)
             .error(R.drawable.placeholder_picture_of_day)
             .into(imageView)
 }
@@ -64,5 +63,20 @@ fun bindTextViewToEmptyTextDesc(textView: TextView, strTitle: String?) {
         textView.text = context.getString(R.string.image_of_the_day)
     } else {
         textView.text = strTitle
+    }
+}
+
+@BindingAdapter("pictureOfDay")
+fun bindPictureOfDayImage(imageView: ImageView, pictureOfDay: PictureOfDay?) {
+    if (pictureOfDay?.mediaType == "image") {
+        Picasso.with(imageView.context)
+                .load(pictureOfDay.url)
+                .into(imageView)
+        imageView.contentDescription = imageView.context.getString(
+                R.string.nasa_picture_of_day_content_description_format,
+                pictureOfDay.title
+        )
+    } else {
+        imageView.contentDescription = imageView.context.getString(R.string.this_is_nasa_s_picture_of_day_showing_nothing_yet)
     }
 }
