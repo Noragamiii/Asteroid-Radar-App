@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="asteroid"
+            type="com.udacity.asteroidradar.Asteroid" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,6 +22,7 @@
             android:textColor="#ffffff"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:text="@{asteroid.codename}"
             app:layout_constraintStart_toStartOf="@id/guidelineLeft"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Text_id" />
@@ -28,6 +35,7 @@
             android:layout_marginBottom="16dp"
             android:textSize="16sp"
             android:textColor="#ffffff"
+            android:text="@{asteroid.closeApproachDate}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/asteroid_id"
             app:layout_constraintTop_toBottomOf="@+id/asteroid_id"
@@ -41,21 +49,23 @@
             app:layout_constraintBottom_toBottomOf="@+id/asteroid_date"
             app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
             app:layout_constraintTop_toTopOf="@+id/asteroid_id"
-            app:srcCompat="@drawable/ic_status_potentially_hazardous" />
+            app:srcCompat="@drawable/ic_status_potentially_hazardous"
+            android:contentDescription="@{asteroid.codename}"
+            app:statusIcon="@{asteroid.potentiallyHazardous}"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="8dp" />
+            app:layout_constraintGuide_begin="8dp"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineRight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="400dp" />
+            app:layout_constraintGuide_begin="400dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -58,6 +58,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             else -> asteroidRepository.allAsteroids
         }
     }
+
+    /**
+     * Navigate to detail
+     */
+    private val _navigateToDetailAsteroid = MutableLiveData<Asteroid>()
+    val navigateToDetailAsteroid: LiveData<Asteroid>
+        get() = _navigateToDetailAsteroid
     private suspend fun refreshPictureOfDay() {
         withContext(Dispatchers.IO) {
             _pictureOfDay.postValue(AsteroidApiService.AsteroidApi.retrofitService.getPictureOfTheDay(API_KEY))
@@ -71,5 +78,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
             throw IllegalArgumentException("Unable to construct ViewModel")
         }
+    }
+
+    fun onAsteroidClicked(asteroid: Asteroid) {
+        _navigateToDetailAsteroid.value = asteroid
+    }
+
+    fun onAsteroidNavigated() {
+        _navigateToDetailAsteroid.value = null
+    }
+
+    fun onChangeFilter(filter: FilterAsteroid) {
+        _filterAsteroid.postValue(filter)
     }
 }
