@@ -80,3 +80,12 @@ fun bindPictureOfDayImage(imageView: ImageView, pictureOfDay: PictureOfDay?) {
         imageView.contentDescription = imageView.context.getString(R.string.this_is_nasa_s_picture_of_day_showing_nothing_yet)
     }
 }
+
+@BindingAdapter("asteroidContentDescription")
+fun binContentDescription(ImageView: ImageView, isHazardous: Boolean) {
+    if (isHazardous) {
+        ImageView.contentDescription = ImageView.context.getString(R.string.potentially_hazardous_asteroid_image)
+    } else {
+        ImageView.contentDescription = ImageView.context.getString(R.string.not_hazardous_asteroid_image)
+    }
+}
